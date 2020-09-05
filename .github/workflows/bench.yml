@@ -1,7 +1,7 @@
 name: Benchmark
 on: [push]
 jobs:
-  bench:
+  bench1:
     runs-on: ubuntu-latest
     name: create vs build
     steps:
@@ -14,3 +14,16 @@ jobs:
       run: |
         ruby create-vs-build/bench-io.rb
         ruby create-vs-build/bench-on-memory.rb
+  bench2:
+    runs-on: ubuntu-latest
+    name: belongs_to association
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Run Benchmark
+      run: |
+        ruby association/bench-on-memory.rb
+        ruby association/bench-io.rb

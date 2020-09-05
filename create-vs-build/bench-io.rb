@@ -7,7 +7,6 @@ gemfile(true) do
   gem "activerecord"
   gem "benchmark-ips"
   gem "factory_bot", "6.1.0"
-  gem "rspec"
   gem "sqlite3"
 end
 
@@ -27,8 +26,8 @@ end
 
 FactoryBot.define do
   factory :user do
-    first_name { "first_name#{id}" }
-    last_name  { "last_name#{id}" }
+    sequence(:first_name) { |n| "first_name#{n}" }
+    sequence(:last_name)  { |n| "last_name#{n}" }
   end
 end
 
