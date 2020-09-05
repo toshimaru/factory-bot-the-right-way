@@ -1,0 +1,16 @@
+name: Benchmark
+on: [push]
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    name: create vs build
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Run Benchmark
+      run: |
+        ruby create-vs-build/bench-io.rb
+        ruby create-vs-build/bench-on-memory.rb
