@@ -2,16 +2,17 @@ require "bundler/inline"
 
 gemfile(true) do
   source "https://rubygems.org"
-  gem "factory_bot", "6.1.0"
   gem "activerecord"
+  gem "benchmark-ips"
+  gem "factory_bot", "6.1.0"
   gem "rspec"
   gem "sqlite3"
 end
 
 require 'active_record'
 
-ActiveRecord::Base.establish_copnnection(adapter: "sqlite3", database: ":memory:")
-ActiveRecord::Base.logger = Logger.new(STDOUT)
+ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
+# ActiveRecord::Base.logger = Logger.new(STDOUT)
 ActiveRecord::Schema.define do
   create_table :users do |t|
     t.string :first_name
@@ -27,5 +28,14 @@ FactoryBot.define do
   end
 end
 
-user = FactoryBot.create(:user)
-p user
+require 'benchmark/ips'
+
+Benchmark.ips do |x|
+  x.report("FactoryBot.create") {
+    FactoryBot.create(:user)
+  }
+  x.report("FactoryBot.build") {
+    FactoryBot.build(:user)
+  }
+  x.compare!
+end
