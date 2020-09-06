@@ -5,14 +5,14 @@ require "bundler/inline"
 gemfile(true) do
   source "https://rubygems.org"
   gem "activerecord"
+  gem "benchmark-ips"
   gem "factory_bot", "6.1.0"
   gem "sqlite3"
 end
 
 require 'active_record'
 
-ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: ":memory:")
-ActiveRecord::Base.logger = Logger.new(STDOUT)
+ActiveRecord::Base.establish_connection(adapter: "sqlite3", database: 'belongsto-association-bench.sqlite3')
 ActiveRecord::Schema.define do
   create_table :users do |t|
     t.string :first_name
@@ -28,9 +28,8 @@ ActiveRecord::Schema.define do
 end
 
 class User < ActiveRecord::Base
-  has_many :posts
+  has_many :tweets
 end
-
 
 class Tweet < ActiveRecord::Base
   belongs_to :user
@@ -59,14 +58,11 @@ FactoryBot.define do
   end
 end
 
-puts "=== tweet1 ==="
-FactoryBot.create(:tweet1)
-
-puts "=== tweet2 ==="
-FactoryBot.create(:tweet2)
-
-puts "=== tweet3 ==="
-FactoryBot.create(:tweet3)
-
-puts "=== tweet4 ==="
-FactoryBot.create(:tweet4)
+require 'benchmark/ips'
+Benchmark.ips do |x|
+  x.report("FactoryBot.build tweet1") { FactoryBot.build(:tweet1) }
+  x.report("FactoryBot.build tweet2") { FactoryBot.build(:tweet2) }
+  x.report("FactoryBot.build tweet3") { FactoryBot.build(:tweet3) }
+  x.report("FactoryBot.build tweet4") { FactoryBot.build(:tweet4) }
+  x.compare!
+end

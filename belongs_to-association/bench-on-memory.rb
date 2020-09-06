@@ -28,9 +28,8 @@ ActiveRecord::Schema.define do
 end
 
 class User < ActiveRecord::Base
-  has_many :posts
+  has_many :tweets
 end
-
 
 class Tweet < ActiveRecord::Base
   belongs_to :user
@@ -61,32 +60,16 @@ end
 
 require 'benchmark/ips'
 Benchmark.ips do |x|
-  x.report("FactoryBot.build tweet1") {
-    FactoryBot.build(:tweet1)
-  }
-  x.report("FactoryBot.build tweet2") {
-    FactoryBot.build(:tweet2)
-  }
-  x.report("FactoryBot.build tweet3") {
-    FactoryBot.build(:tweet3)
-  }
-  x.report("FactoryBot.build tweet4") {
-    FactoryBot.build(:tweet4)
-  }
+  x.report("FactoryBot.build tweet1") { FactoryBot.build(:tweet1) }
+  x.report("FactoryBot.build tweet2") { FactoryBot.build(:tweet2) }
+  x.report("FactoryBot.build tweet3") { FactoryBot.build(:tweet3) }
+  x.report("FactoryBot.build tweet4") { FactoryBot.build(:tweet4) }
   x.compare!
 end
 Benchmark.ips do |x|
-  x.report("FactoryBot.create tweet1") {
-    FactoryBot.create(:tweet1)
-  }
-  x.report("FactoryBot.create tweet2") {
-    FactoryBot.create(:tweet2)
-  }
-  x.report("FactoryBot.create tweet3") {
-    FactoryBot.create(:tweet3)
-  }
-  x.report("FactoryBot.create tweet4") {
-    FactoryBot.create(:tweet4)
-  }
+  x.report("FactoryBot.create tweet1") { FactoryBot.create(:tweet1) }
+  x.report("FactoryBot.create tweet2") { FactoryBot.create(:tweet2) }
+  x.report("FactoryBot.create tweet3") { FactoryBot.create(:tweet3) }
+  x.report("FactoryBot.create tweet4") { FactoryBot.create(:tweet4) }
   x.compare!
 end

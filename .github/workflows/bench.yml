@@ -25,5 +25,18 @@ jobs:
         ruby-version: 2.7
     - name: Run Benchmark
       run: |
-        ruby association/bench-on-memory.rb
-        ruby association/bench-io.rb
+        ruby belongs_to-association/bench-on-memory.rb
+        ruby belongs_to-association/bench-io.rb
+  bench3:
+    runs-on: ubuntu-latest
+    name: has_many association
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Run Benchmark
+      run: |
+        ruby has_many-association/bench-on-memory.rb
+        ruby has_many-association/bench-io.rb

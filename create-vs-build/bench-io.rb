@@ -33,11 +33,7 @@ end
 
 require 'benchmark/ips'
 Benchmark.ips do |x|
-  x.report("FactoryBot.create") {
-    FactoryBot.create(:user)
-  }
-  x.report("FactoryBot.build") {
-    FactoryBot.build(:user)
-  }
+  x.report("FactoryBot.create") { FactoryBot.create(:user) }
+  x.report("FactoryBot.build") { FactoryBot.build(:user) }
   x.compare!
 end
