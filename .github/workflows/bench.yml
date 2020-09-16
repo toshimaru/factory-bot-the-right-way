@@ -40,3 +40,16 @@ jobs:
       run: |
         ruby has_many-association/bench-on-memory.rb
         ruby has_many-association/bench-io.rb
+  bench4:
+    runs-on: ubuntu-latest
+    name: always create association
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Run Benchmark
+      run: |
+        ruby always-create-association/bench-on-memory.rb
+        ruby always-create-association/bench-io.rb
